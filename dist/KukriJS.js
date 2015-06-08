@@ -3,26 +3,26 @@
 // really supposed to "extend" from it, its more of a pub/sub handler.
 
 var pubSub = (function(){
-	
+
 	var instance;
-	
+
 	function createInstance(){
 		var ns = {};
 
 		ns.channels = {};
-		
+
 		ns.pub = function(channel,value){
 			ns.channels[channel] = ns.channels[channel] || [];
 			ns.channels[channel].forEach(function(callback){
 				if(callback)callback(value);
 			});
 		};
-		
+
 		ns.sub = function(channel,callback){
 			ns.channels[channel] = ns.channels[channel] || [];
 			ns.channels[channel].push(callback);
 		};
-		
+
 		ns.unsub = function(channel, callback){
 			ns.channels[channel] = ns.channels[channel] || [];
 			var pos = ns.channels[channel].indexOf(callback);
@@ -32,17 +32,17 @@ var pubSub = (function(){
 
 		return ns;
 	}
-	
+
 	return {
 		getInstance: function(){
 			if(!instance) instance = createInstance();
 			return instance;
 		}
 	};
-	
+
 })();
 
-// This is a personalized deferral object I made. 
+// This is a personalized deferral object I made.
 // I love it.
 
 var deferred = function(){
@@ -122,42 +122,42 @@ var postEncode = function(obj){
 
 // Deep extend from http://youmightnotneedjquery.com/
 var deepExtend = function(out) {
-  out = out || {};
+	out = out || {};
 
-  for (var i = 1; i < arguments.length; i++) {
-    var obj = arguments[i];
+	for (var i = 1; i < arguments.length; i++) {
+		var obj = arguments[i];
 
-    if (!obj)
-      continue;
+		if (!obj)
+		continue;
 
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (typeof obj[key] === 'object')
-          deepExtend(out[key], obj[key]);
-        else
-          out[key] = obj[key];
-      }
-    }
-  }
+		for (var key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				if (typeof obj[key] === 'object')
+				deepExtend(out[key], obj[key]);
+				else
+				out[key] = obj[key];
+			}
+		}
+	}
 
-  return out;
+	return out;
 };
 
 // Deep extend from http://youmightnotneedjquery.com/
 var extend = function(out) {
-  out = out || {};
+	out = out || {};
 
-  for (var i = 1; i < arguments.length; i++) {
-    if (!arguments[i])
-      continue;
+	for (var i = 1; i < arguments.length; i++) {
+		if (!arguments[i])
+		continue;
 
-    for (var key in arguments[i]) {
-      if (arguments[i].hasOwnProperty(key))
-        out[key] = arguments[i][key];
-    }
-  }
+		for (var key in arguments[i]) {
+			if (arguments[i].hasOwnProperty(key))
+			out[key] = arguments[i][key];
+		}
+	}
 
-  return out;
+	return out;
 };
 
 // quick and dirty AJAX using my deferred object.
@@ -170,26 +170,26 @@ var ajax = function(options){
 		sendDataAsJSON:false,
 	};
 	config = extend(config,options);
-	
+
 	var def = deferred();
-	
+
 	var request = new XMLHttpRequest();
 	request.open(config.method, config.url, true);
 
 	request.onload = function() {
-	  if (request.status >= 200 && request.status < 400) {
-		var data = request.responseText;
-		try{ data = JSON.parse(data); } catch(e) {}
-		def.resolve(data,false);		
-	  } else {
-		def.reject(false,request);
-	  }
+		if (request.status >= 200 && request.status < 400) {
+			var data = request.responseText;
+			try{ data = JSON.parse(data); } catch(e) {}
+			def.resolve(data,false);
+		} else {
+			def.reject(false,request);
+		}
 	};
 
 	request.onerror = function() {
-	  def.reject(false,request);
+		def.reject(false,request);
 	};
-	
+
 	if(config.data){
 		if(config.sendDataAsJSON){
 			request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -201,7 +201,7 @@ var ajax = function(options){
 	} else {
 		request.send();
 	}
-	
+
 	return def.promise();
 
 };
@@ -226,9 +226,9 @@ function fadeIn(el) {
 
 		if (+el.style.opacity < 1) {
 			if (window.requestAnimationFrame)
-				requestAnimationFrame(tick);
-			else 
-				setTimeout(tick, 16);
+			requestAnimationFrame(tick);
+			else
+			setTimeout(tick, 16);
 		} else {
 			d.resolve();
 		}
@@ -248,9 +248,9 @@ function fadeOut(el) {
 
 		if (+el.style.opacity > 0) {
 			if (window.requestAnimationFrame)
-				requestAnimationFrame(tick);
-			else 
-				setTimeout(tick, 16);
+			requestAnimationFrame(tick);
+			else
+			setTimeout(tick, 16);
 		} else {
 			d.resolve();
 		}
@@ -275,10 +275,10 @@ var createBoundElement = function(options){
 
 	// get instance of pubsubber
 	var ps = pubSub.getInstance();
-	
+
 	// Create dom elem
 	var input = config.elem || ce("input");
-	
+
 	var getVal = function(){
 		if(config.readFunc) return config.readFunc(config.object[config.property]);
 		return config.object[config.property];
@@ -299,27 +299,62 @@ var createBoundElement = function(options){
 			input.appendChild(document.createTextNode(getVal()));
 		}
 	});
-	
+
 	if(typeof input.value != "undefined"){
-	
+
 		var publish = function(){
 			ps.pub(channel,input.value);
 		};
-		
+
 		// Start it off right.
 		input.value = getVal();
-		
+
 		// watch the field, and publish any changes.
 		input.addEventListener("change",publish);
 		input.addEventListener("keyup",publish);
-		
+
 	} else {
 		input.innerHTML = "";
 		input.appendChild(document.createTextNode(getVal()));
 	}
-	
+
 	// Finally, run the initial var through the provided read func if nessicary.
 	setVal(getVal());
-	
+
 	return input;
+};
+
+// Add class from http://youmightnotneedjquery.com/
+var addClass = function (el, className) {
+	if (el.classList)
+	el.classList.add(className);
+	else
+	el.className += ' ' + className;
+};
+
+// functtions for easily working with GET params.
+var readGetParams = function(){
+	var params = window.location.search.substr(1).split("&");
+	var obj = {}, tmp=[];
+	for (var i = 0; i < params.length; i++) {
+		tmp = params[i].split("=");
+		if(typeof tmp[1] == "undefined") {
+			obj[tmp[0]] = "";
+		} else {
+			obj[tmp[0]] = decodeURIComponent(tmp[1]);
+		}
+	}
+	return obj;
+};
+var addGetParam = function(key,val){
+
+	var opts = readGetParams();
+	opts[key]=val;
+	var out = [];
+	for(var i in opts){
+		if(typeof opts == "undefined") continue;
+		out.push(i+'='+opts[i]);
+	}
+	return "?"+out.join("&");
+
 };
