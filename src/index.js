@@ -168,6 +168,7 @@ var ajax = function(options){
 		method:"get",
 		data:false,
 		sendDataAsJSON:false,
+		headers:false,
 	};
 	config = extend(config,options);
 
@@ -175,6 +176,12 @@ var ajax = function(options){
 
 	var request = new XMLHttpRequest();
 	request.open(config.method, config.url, true);
+
+	if(config.headers){
+		for(var i in config.headers){
+			request.setRequestHeader(i, config.headers[i]);
+		}
+	}
 
 	request.onload = function() {
 		if (request.status >= 200 && request.status < 400) {
