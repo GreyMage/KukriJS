@@ -365,3 +365,8 @@ var addGetParam = function(key,val){
 	return "?"+out.join("&");
 
 };
+
+// simple two-number clamp.
+var clamp = function(x,y,z){
+	return Math.max(x,Math.min(y,z));
+};
