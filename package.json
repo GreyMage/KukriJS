@@ -2,7 +2,7 @@
   "name": "KukriJS",
   "version": "0.0.0",
   "description": "Kukri is a set of js tools to help with writing JavaScript libraries",
-  "main": "Gruntfile.js",
+  "main": "grunt/gruntHelper.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
