@@ -1,10 +1,11 @@
 {
   "name": "KukriJS",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Kukri is a set of js tools to help with writing JavaScript libraries",
   "main": "grunt/gruntHelper.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "grunt-watch": "grunt",
+    "grunt-build": "grunt build"
   },
   "repository": {
     "type": "git",

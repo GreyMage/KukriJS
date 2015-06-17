@@ -370,3 +370,15 @@ var addGetParam = function(key,val){
 var clamp = function(x,y,z){
 	return Math.max(x,Math.min(y,z));
 };
+
+// Truncates a string after a certian point, and removes the last "word" in case of
+// mid-sentance truncation. 
+var strTruncate = function(str,len,trail){
+  if(typeof trail == "undefined") trail = "...";
+  if(str.length <= len) return str;
+  return str.slice(0,len).split(" ").map(function(word,i,arr){
+    if(i+1 < arr.length) return word;
+  }).filter(function(x) {
+    return typeof x !== 'undefined';
+  }).join(" ").trim()+trail;
+};
