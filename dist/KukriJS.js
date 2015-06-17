@@ -1,5 +1,5 @@
 // This is a singleton "namespace global" event emitter type thing.
-// Its specifically for use within this namespace, and nothing is
+// Its specifically for use within the Kukri (and your) namespace, and nothing is
 // really supposed to "extend" from it, its more of a pub/sub handler.
 
 var pubSub = (function(){
