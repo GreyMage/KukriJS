@@ -29,4 +29,6 @@ And, assuming you uglify the output again, unused bits will be removed. Magic!
 ### Final Thoughts
 This was designed to be for my personal projects and I decided to put it here for others to use. Feel free to leave an issue or feature but I may very well ignore it.
 
+This project has zero dependancies, and will stay that way. Any and all features inside of Kukri will only require itself to work.
+
 I'm not going to bother keeping an updated function list right now, they are available in [https://github.com/GreyMage/KukriJS/blob/master/dist/KukriJS.js](https://github.com/GreyMage/KukriJS/blob/master/dist/KukriJS.js), and they are changing so much right now that its not worth the effort.
