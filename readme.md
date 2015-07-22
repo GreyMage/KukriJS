@@ -1,7 +1,7 @@
 # KukriJS
 (I'm lazy so this is short and sweet.)
 ### Install
-`npm install --save-dev https://github.com/GreyMage/KukriJS.git`
+`npm install --save-dev GreyMage/KukriJS`
 
 I don't know how (or care to) setup a npm package, and this keep it all in line with my repo, so whatevs.
 
